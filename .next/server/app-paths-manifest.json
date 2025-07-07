@@ -1,0 +1,11 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/api/campaigns/[id]/send/route": "app/api/campaigns/[id]/send/route.js",
+  "/api/campaigns/[id]/route": "app/api/campaigns/[id]/route.js",
+  "/campaigns/[id]/page": "app/campaigns/[id]/page.js",
+  "/api/lists/[id]/subscribers/route": "app/api/lists/[id]/subscribers/route.js",
+  "/campaigns/new/page": "app/campaigns/new/page.js",
+  "/api/lists/route": "app/api/lists/route.js",
+  "/api/campaigns/route": "app/api/campaigns/route.js",
+  "/page": "app/page.js"
+}
