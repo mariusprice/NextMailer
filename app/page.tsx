@@ -65,6 +65,23 @@ export default function HomePage() {
             Coming Soon
           </Button>
         </div>
+
+        <div className="bg-white p-6 rounded-lg border shadow-sm">
+          <div className="flex items-center mb-4">
+            <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+              <span className="text-orange-600 text-lg">⚙️</span>
+            </div>
+            <h3 className="text-lg font-semibold">Settings</h3>
+          </div>
+          <p className="text-gray-600 mb-4">
+            Configure AWS SES credentials and email settings for testing.
+          </p>
+          <Link href="/settings">
+            <Button variant="outline" className="w-full">
+              Configure AWS SES
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Features */}
