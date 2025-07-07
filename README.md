@@ -29,45 +29,53 @@ A self-hosted email marketing platform built with Next.js 14+, designed for pers
 - AWS account with SES configured
 - Verified email domain/address in AWS SES
 
-## Setup
+## Deployment to Vercel (Recommended)
 
-### 1. Clone and Install
+### 1. Quick Deploy
 
-```bash
-git clone <repository-url>
-cd nextmailer-personal
-npm install
-```
+Click the button below to deploy directly to Vercel:
 
-### 2. Environment Variables
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mariusprice/NextMailer)
 
-Copy the example environment file and configure your variables:
+### 2. Manual Import
 
-```bash
-cp env.example .env.local
-```
+1. **Import Repository**:
+   - Go to [Vercel Dashboard](https://vercel.com/dashboard)
+   - Click "Import Git Repository"
+   - Select your `NextMailer` repository
 
-Fill in your environment variables:
+2. **Configure Environment Variables**:
+   During import, add the following environment variables in the Vercel dashboard:
 
-```env
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+   ```
+   # Supabase Configuration (Get these from your Supabase project settings)
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
-# AWS SES Configuration
-AWS_ACCESS_KEY_ID=your_aws_access_key_id
-AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-AWS_REGION=your_aws_region
+   # AWS SES Configuration
+   AWS_ACCESS_KEY_ID=your_aws_access_key_id
+   AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+   AWS_REGION=us-east-1
 
-# Email Configuration
-FROM_EMAIL=your_verified_ses_email@example.com
-FROM_NAME=Your Name or Organization
-```
+   # Email Configuration
+   FROM_EMAIL=your_verified_ses_email@example.com
+   FROM_NAME=Your Name or Organization
+   ```
 
-### 3. Database Setup
+3. **Deploy**: Click "Deploy" and Vercel will build and deploy your application
 
-Run the following SQL in your Supabase SQL editor to create the required tables:
+### 3. Supabase Setup
+
+After deployment, set up your Supabase database:
+
+1. **Create Supabase Project**:
+   - Go to [Supabase Dashboard](https://app.supabase.com)
+   - Create a new project
+   - Copy the project URL and keys
+
+2. **Run Database Schema**:
+   In your Supabase SQL editor, run:
 
 ```sql
 -- Create email_lists table
@@ -127,14 +135,32 @@ CREATE INDEX idx_campaign_analytics_campaign_id ON campaign_analytics(campaign_i
 CREATE INDEX idx_campaign_analytics_event_type ON campaign_analytics(event_type);
 ```
 
-### 4. AWS SES Setup
+3. **Update Environment Variables**:
+   - Go back to your Vercel project settings
+   - Update the Supabase environment variables with your actual values
+   - Redeploy if necessary
 
-1. Verify your email address or domain in AWS SES
-2. Create IAM user with SES permissions
-3. Generate access keys for the IAM user
-4. If in sandbox mode, verify recipient emails
+## Local Development
 
-### 5. Development
+### 1. Clone and Install
+
+```bash
+git clone https://github.com/mariusprice/NextMailer.git
+cd NextMailer
+npm install
+```
+
+### 2. Environment Variables
+
+Create `.env.local` file:
+
+```bash
+cp env.example .env.local
+```
+
+Fill in your environment variables based on your Supabase and AWS configurations.
+
+### 3. Development Server
 
 ```bash
 npm run dev
@@ -142,21 +168,27 @@ npm run dev
 
 Visit `http://localhost:3000` to start using the application.
 
-## Deployment
+## AWS SES Setup
 
-### Vercel (Recommended)
-
-1. Connect your repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy
-
-### Other Platforms
-
-The application can be deployed to any platform supporting Next.js:
-- Netlify
-- Railway
-- AWS Amplify
-- Self-hosted with PM2
+1. Verify your email address or domain in AWS SES
+2. Create IAM user with SES permissions:
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Action": [
+           "ses:SendEmail",
+           "ses:SendRawEmail"
+         ],
+         "Resource": "*"
+       }
+     ]
+   }
+   ```
+3. Generate access keys for the IAM user
+4. If in sandbox mode, verify recipient emails
 
 ## Usage
 
@@ -181,6 +213,19 @@ The application can be deployed to any platform supporting Next.js:
 ├── types/                 # TypeScript types
 └── supabase/functions/    # Edge functions
 ```
+
+## Environment Variables Reference
+
+| Variable | Description | Required | Example |
+|----------|-------------|----------|---------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL | Yes | `https://abc123.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous public key | Yes | `eyJ0eXAiOiJKV1QiLCJhbGc...` |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (private) | Yes | `eyJ0eXAiOiJKV1QiLCJhbGc...` |
+| `AWS_ACCESS_KEY_ID` | AWS access key for SES | Yes | `AKIAIOSFODNN7EXAMPLE` |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key for SES | Yes | `wJalrXUtnFEMI/K7MDENG/...` |
+| `AWS_REGION` | AWS region for SES | Yes | `us-east-1` |
+| `FROM_EMAIL` | Verified sender email in SES | Yes | `hello@yourdomain.com` |
+| `FROM_NAME` | Sender name for emails | Yes | `Your Company` |
 
 ## Contributing
 
