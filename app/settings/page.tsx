@@ -261,7 +261,7 @@ export default function SettingsPage() {
         <h3 className="font-semibold text-blue-900 mb-3">How to get AWS SES credentials:</h3>
         <ol className="list-decimal list-inside space-y-2 text-blue-800">
           <li>Go to the <a href="https://console.aws.amazon.com/ses/" target="_blank" rel="noopener noreferrer" className="underline">AWS SES Console</a></li>
-          <li>Verify your sending email address in the "Verified identities" section</li>
+          <li>Verify your sending email address in the &quot;Verified identities&quot; section</li>
           <li>Go to IAM and create a new user with SES sending permissions</li>
           <li>Generate access keys for that user</li>
           <li>Copy the credentials and paste them above</li>
